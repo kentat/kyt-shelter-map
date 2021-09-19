@@ -80,7 +80,7 @@ from socket import gethostname
 hostname = gethostname()
 
 if "LAPTOP-PB5OA4MQ" in hostname:
-    # ƒfƒoƒbƒOŠÂ‹«
+    # ï¿½fï¿½oï¿½bï¿½Oï¿½Â‹ï¿½
     DEBUG = True 
     DATABASES = {
         'default': {
@@ -90,8 +90,8 @@ if "LAPTOP-PB5OA4MQ" in hostname:
     }
     ALLOWED_HOSTS = ['*'] 
 else:
-    # –{”ÔŠÂ‹«
-    DEBUG = False
+    # ï¿½{ï¿½ÔŠÂ‹ï¿½
+    DEBUG = True
     import dj_database_url
     db_from_env = dj_database_url.config()
     DATABASES = {
