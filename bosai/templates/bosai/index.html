@@ -1,0 +1,28 @@
+{% extends 'bosai/base.html' %}
+{% block content %}
+<!-- <h1 class="display-4 text-primary">京都市避難所リスト</h1> -->
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item  active" aria-current="page">Home</li>
+  </ol>
+</nav>
+<div id="result"></div>
+<div id="map"></div>
+<div id='maintable'></div>
+<script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkpJxcjEx4Gfo2jkqKx9wFwwcXIh0-O8k&callback=initMap&libraries=&v=weekly"
+    async defer>
+</script>
+<script type="text/javascript">
+    let shs = [
+          {% for s in shelters %}
+          {
+            id: {{s.id}}, name: "{{s.name}}", address : "{{s.address}}", lat : {{ s.hokui }}, lng: {{ s.tokei }},
+            capacity: {{ s.capacity }}, tel: "{{s.tel}}", karteurl : "{{s.url}}", image : "{{s.image}}",
+            durl : "{% url 'detail' s.id %}"
+          },
+          {% endfor %}
+        ];
+    setdata(shs);
+</script>
+{% endblock %}

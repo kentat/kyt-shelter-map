@@ -1,0 +1,22 @@
+li a {
+    color: green;
+}
+#gmap {
+    height: 600px;
+    width: 600px;
+}
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+#gnav{
+    background-color: gray;
+}
+#gnav ul{
+    overflow: hidden;
+}
+#gnav li{
+    float: left;
+    width: 200px;
+}
