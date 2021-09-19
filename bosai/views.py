@@ -9,7 +9,6 @@ from django.core import serializers
 def index(request):
     # tmp_list = ShelterModel.objects.all()
     return render(request, 'bosai/list.html')
-    #return HttpResponse("You're looking at question .")
     # return render(request, 'bosai/index.html', {'shelters': tmp_list})
 #def list(request):
 #    shelter = ShelterModel()
