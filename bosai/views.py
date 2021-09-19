@@ -8,8 +8,8 @@ from django.core import serializers
 # Create your views here.
 def index(request):
     tmp_list = ShelterModel.objects.all()
-    return render(request, 'bosai/list.html')
-    # return render(request, 'bosai/index.html', {'shelters': tmp_list})
+    # return render(request, 'bosai/list.html')
+    return render(request, 'bosai/index.html', {'shelters': tmp_list})
 #def list(request):
 #    shelter = ShelterModel()
 #    return render(request, 'bosai/list.html', {'shelters':shelter})
