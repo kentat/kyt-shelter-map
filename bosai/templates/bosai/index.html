@@ -19,12 +19,10 @@
       {
         id: {{s.id}}, name: "{{s.name}}", address : "{{s.address}}", lat : {{ s.hokui }}, lng: {{ s.tokei }},
         capacity: {{ s.capacity }}, tel: "{{s.tel}}", karteurl: "{{s.url}}", image: "{{s.image}}",
-        durl: "#"
+        durl: "{% url 'detail' s.id %}"
       },
       {% endfor %}
     ];
     setdata(shs);
-
 </script>
-
 {% endblock %}
