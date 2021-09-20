@@ -14,15 +14,17 @@
     async defer>
 </script>
 <script type="text/javascript">
-    // let shs = [
-    //       {% for s in shelters %}
-    //       {
-    //         id: {{s.id}}, name: "{{s.name}}", address : "{{s.address}}", lat : {{ s.hokui }}, lng: {{ s.tokei }},
-    //         capacity: {{ s.capacity }}, tel: "{{s.tel}}", karteurl : "{{s.url}}", image : "{{s.image}}",
-    //         durl : "{% url 'detail' s.id %}"
-    //       },
-    //       {% endfor %}
-    //     ];
-    // setdata(shs);
+    let shs = [
+      {% for s in shelters %}
+      {
+        id: {{s.id}}, name: "{{s.name}}", address : "{{s.address}}", lat : {{ s.hokui }}, lng: {{ s.tokei }},
+        capacity: {{ s.capacity }}, tel: "{{s.tel}}", karteurl: "{{s.url}}", image: "{{s.image}}",
+        durl: "#"
+      },
+      {% endfor %}
+    ];
+    setdata(shs);
+
 </script>
+
 {% endblock %}
