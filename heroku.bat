@@ -15,3 +15,7 @@ git push heroku master
 heroku run python manage.py createsuperuser
 heroku run python manage.py makemigrations
 heroku run python manage.py migrate
+
+git rm -r -f log
+git rm -r -f tmp
+git rm -f *.sqlite3
