@@ -12,3 +12,6 @@ heroku login
 heroku create kyt-shelter-map
 heroku config:set DISABLE_COLLECTSTATIC=1
 git push heroku master
+heroku run python manage.py createsuperuser
+heroku run python manage.py makemigrations
+heroku run python manage.py migrate
