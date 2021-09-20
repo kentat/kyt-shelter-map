@@ -1,6 +1,13 @@
 let mymap;
 let mkdata = [];
 
+document.addEventListener("DOMContentLoaded",
+function(){
+
+
+  // 処理
+}, false);
+
 function initMap() {
   let output = document.getElementById("result");
   if (!navigator.geolocation) {//Geolocation apiがサポートされていない場合

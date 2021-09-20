@@ -2,7 +2,7 @@
 {% block content %}
 <!-- <h1 class="display-4 text-primary">京都市避難所リスト</h1> -->
 <!-- <div class="row"> -->
-  <div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="row">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item  active" aria-current="page">Home</li>
@@ -10,29 +10,23 @@
     </nav>
   </div>
 <!-- </div> -->
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div id="result"></div>
-</div>
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div id="map"></div>
-</div>
-<div class="row" style="margin-left: 0; margin-right: 0;">
-  <div id='maintable'></div>
-</div>
+<div id="result" class="row"></div>
+<div id="map" class="row"></div>
+<div id="maintable" class="row"></div>
 <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkpJxcjEx4Gfo2jkqKx9wFwwcXIh0-O8k&callback=initMap&libraries=&v=weekly"
     async defer>
 </script>
 <script type="text/javascript">
-    let shs = [
-      {% for s in shelters %}
-      {
-        id: {{s.id}}, name: "{{s.name}}", address : "{{s.address}}", lat : {{ s.hokui }}, lng: {{ s.tokei }},
-        capacity: {{ s.capacity }}, tel: "{{s.tel}}", karteurl: "{{s.url}}", image: "{{s.image}}",
-        durl: "{% url 'detail' s.id %}"
-      },
-      {% endfor %}
-    ];
-    setdata(shs);
+  let shs = [
+    {% for s in shelters %}
+    {
+      id: {{s.id}}, name: "{{s.name}}", address : "{{s.address}}", lat : {{ s.hokui }}, lng: {{ s.tokei }},
+      capacity: {{ s.capacity }}, tel: "{{s.tel}}", karteurl: "{{s.url}}", image: "{{s.image}}",
+      durl: "{% url 'detail' s.id %}"
+    },
+    {% endfor %}
+  ];
+  setdata(shs);
 </script>
 {% endblock %}

@@ -2,3 +2,8 @@
     height: 300px;
     width: 100%;
 }
+
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
