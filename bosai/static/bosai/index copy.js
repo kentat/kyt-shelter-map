@@ -162,51 +162,88 @@ function makeMaker(centerlatlng, route) {
 }
 
 function makeTable() {
+  //表示中のテーブル初期化
+  let element = document.querySelector("table"); 
+  if (element != null){
+    element.remove();
+  }
   // table要素を生成
   const parent = document.getElementById("maintable");
-
-  let divrow = document.createElement('div');
-  divrow.className = "row p-3 border" ;
-  
-  let divname = document.createElement('div');
-  divname.className = "col-md-4 themed-grid-col" ;
-  divname.textContent = '施設名';
-
-  let divinfo = document.createElement('div');
-  divinfo.className = "col-md-8 themed-grid-col" ;
-  divinfo.textContent = '施設情報';
-
-  divrow.appendChild(divname);
-  divrow.appendChild(divinfo);
-  parent.appendChild(divrow);
  
+  let table = document.createElement('table');
+  table.className = "table table-hover" ;
+ 
+  // thead部
+  let thead = document.createElement('thead');
+  thead.className = "thead-light";
+
+  let tr = document.createElement('tr');
+  let th1 = document.createElement('th');
+  // th1.className = "col-md-3" ;
+  th1.textContent = '施設名';
+  tr.appendChild(th1);
+  let th2 = document.createElement('th');
+  // th2.colSpan = "1" ;
+  th2.textContent = '直線距離';
+  tr.appendChild(th2);
+  let th3 = document.createElement('th');
+  // th2.colSpan = "1" ;
+  th3.textContent = '施設情報';
+  tr.appendChild(th3);
+  // thead.appendChild(tr);
+
+  let th4 = document.createElement('th');
+  // th2.colSpan = "1" ;
+  th4.textContent = '備考';
+  tr.appendChild(th4);
+  thead.appendChild(tr);
+
+  // tbody部
+  let tbody = document.createElement('tbody');
   for (var i = 0; i < Math.min(10, mkdata.length); i++) {
-    let divrow = document.createElement('div');
-    divrow.className = "row p-3 border" ;
-  
-    let divname = document.createElement('div');
-    divname.className = "col-md-4 themed-grid-col" ;
+    let tr = document.createElement('tr');
+    // th・td部分のループ
+        // td要素を生成
+        let td = document.createElement('td');
+        // td.rowSpan = "4";
+        // td.className = "col-md-3"
+        tr.appendChild(td);
+        let h5 = document.createElement('h5');
+        let anchor = document.createElement("a");
+        anchor.href = mkdata[i]['durl'];
+        anchor.innerHTML = mkdata[i]['name'] ;
+        h5.appendChild(anchor);
+        td.appendChild(h5);
+        tr.appendChild(td);
 
-    let anchor = document.createElement("a");
-    anchor.href = mkdata[i]['durl'];
-    anchor.innerHTML = '<h5>' + mkdata[i]['name'] + '</h5>';
-    divname.appendChild(anchor);
+        td = document.createElement('td');
+        td.innerHTML = mkdata[i]['distance'] + "km";
+        tr.appendChild(td);
 
-    let divinfo = document.createElement('div');
-    divinfo.className = "col-md-8 themed-grid-col" ;
-    divinfo.innerHTML = '<strong>' + mkdata[i]['distance'] + "km" + '</strong>' + '<br>';
-    divinfo.innerHTML += "収容人数：" + mkdata[i]['capacity'] + '<br>';
-    divinfo.innerHTML += "所在地：" + mkdata[i]['address'] + '<br>';
-    divinfo.innerHTML += "電話番号：" + mkdata[i]['tel'] + '<br>';
+        // th・td部分のループ
+        // td要素を生成
+        td = document.createElement('td');
+        td.innerHTML = "収容人数：" + mkdata[i]['capacity'] + '<br>';
+        td.innerHTML += "所在地：" + mkdata[i]['address'] + '<br>';
+        td.innerHTML += "電話番号：" + mkdata[i]['tel'] + '<br>';
 
-    anchor = document.createElement("a");
-    anchor.href = mkdata[i]['karteurl'];
-    anchor.innerHTML += "施設カルテ" ;
-    divinfo.appendChild(anchor);
-    divrow.appendChild(divname);
-    divrow.appendChild(divinfo);
-    parent.appendChild(divrow);
+        anchor = document.createElement("a");
+        anchor.href = mkdata[i]['karteurl'];
+        anchor.innerHTML += "施設カルテ" ;
+        td.appendChild(anchor);
+        tr.appendChild(td);
+
+        // 備考
+        td = document.createElement('td');
+        td.innerHTML = "****備考****";
+        tr.appendChild(td);
+
+        tbody.appendChild(tr);
   }
+  // 生成したtable要素を追加する
+  table.appendChild(thead)
+  table.appendChild(tbody)
+  parent.appendChild(table);
 }
 
 function GetRoute(orglatlng,dstlatlng) {
