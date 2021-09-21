@@ -14,8 +14,8 @@ function initMap() {
   function success(position) {
     let currentlat = position.coords.latitude;//緯度
     let currentlng = position.coords.longitude;//経度
-    currentlat = 35.03244752;
-    currentlng = 135.7701241;
+    // currentlat = 35.03244752;
+    // currentlng = 135.7701241;
     let curlatlng = new google.maps.LatLng(currentlat, currentlng)
     mymap = drawMap(curlatlng);
     distancesort(curlatlng);
@@ -35,8 +35,8 @@ function initDetailMap() {
   function success(position) {
     let currentlat = position.coords.latitude;//緯度
     let currentlng = position.coords.longitude;//経度
-    currentlat = 35.03244752;
-    currentlng = 135.7701241;
+    // currentlat = 35.03244752;
+    // currentlng = 135.7701241;
     let curlatlng = new google.maps.LatLng(currentlat, currentlng)
     mymap = drawMap(curlatlng);
     distancesort(curlatlng);
