@@ -337,7 +337,7 @@ const pagination = () => {
       
           let divinfo = document.createElement('div');
           divinfo.className = "col-md-8 themed-grid-col" ;
-          divinfo.innerHTML = '<strong>' + mkdata[i]['distance'] + "km" + '</strong>' + '<br>';
+          divinfo.innerHTML =  "直線距離：" + '<strong>' + mkdata[i]['distance'] + "km" + '</strong>' + '<br>';
           divinfo.innerHTML += "収容人数：" + mkdata[i]['capacity'] + '<br>';
           divinfo.innerHTML += "所在地：" + mkdata[i]['address'] + '<br>';
           divinfo.innerHTML += "電話番号：" + mkdata[i]['tel'] + '<br>';
