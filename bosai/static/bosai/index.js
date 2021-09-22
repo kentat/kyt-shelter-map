@@ -1,12 +1,13 @@
 let mymap;
 let mkdata = [];
-
-document.addEventListener("DOMContentLoaded",
-function(){
-  // 処理
-}, false);
+const KyotoCityOffice = { lat: 35.011582, lng: 135.767914 };
 
 function initMap() {
+  let initlatlng = new google.maps.LatLng(KyotoCityOffice['lat'], KyotoCityOffice['lng'])
+  mymap = drawMap(initlatlng);
+}
+
+function getCurrentMap() {
   let output = document.getElementById("result");
   if (!navigator.geolocation) {//Geolocation apiがサポートされていない場合
     return;
@@ -20,6 +21,7 @@ function initMap() {
     mymap = drawMap(curlatlng);
     distancesort(curlatlng);
     makeMaker(curlatlng, false);
+    // pagination();
     makeTable();
   };
   function error() {
@@ -272,3 +274,116 @@ function haversine_distance(mk1, mk2) {
       * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
   return d;
 }
+
+// ページング機能
+const pagination = () => {
+  // 初期値設定
+  let page = 1; // 現在のページ（何ページ目か）
+  const step = 10; // ステップ数（1ページに表示する項目数）
+
+  // 現在のページ/全ページ を表示
+  // <p class="count"></p> の中身を書き換え
+  const count = (page, step) => {
+      const p = document.querySelector('.count');
+      // 全ページ数 menuリストの総数/ステップ数の余りの有無で場合分け
+      const total = (mkdata.length % step == 0) ? (mkdata.length / step) : (Math.floor(mkdata.length / step) + 1);
+      p.innerText = page + "/" + total + "ページ";
+      const prev = document.getElementById('prevno');
+      const curr = document.getElementById('currentno');
+      const post = document.getElementById('nextno');
+      if(page > 1){
+        prev.innerHTML = page - 1;
+        prev.className ='page-link';
+      }else{
+        prev.innerHTML = '';
+        prev.className = '';
+      }
+      curr.innerHTML = page;
+
+      if(page > (mkdata.length / step)){
+        post.innerHTML = '';
+        post.className = '';
+      }else{
+        post.innerHTML = page + 1;
+        post.className ='page-link';
+      }
+
+
+    }
+
+  // ページを表示
+  // <ul class="menu_list"></ul> の中身を書き換え
+  const show = (page, step) => {
+      const div = document.querySelector('.menu_list');
+      // 一度リストを空にする
+      while (div.lastChild) {
+          div.removeChild(div.lastChild);
+      }
+      const first = (page - 1) * step + 1;
+      const last = page * step;
+      mkdata.forEach((item, i) => {
+          if(i < first - 1 || i > last - 1) return;
+
+          let divrow = document.createElement('div');
+          divrow.className = "row p-3 border" ;
+        
+          let divname = document.createElement('div');
+          divname.className = "col-md-4 themed-grid-col" ;
+      
+          let anchor = document.createElement("a");
+          anchor.href = mkdata[i]['durl'];
+          anchor.innerHTML = '<h5>' + mkdata[i]['name'] + '</h5>';
+          divname.appendChild(anchor);
+      
+          let divinfo = document.createElement('div');
+          divinfo.className = "col-md-8 themed-grid-col" ;
+          divinfo.innerHTML = '<strong>' + mkdata[i]['distance'] + "km" + '</strong>' + '<br>';
+          divinfo.innerHTML += "収容人数：" + mkdata[i]['capacity'] + '<br>';
+          divinfo.innerHTML += "所在地：" + mkdata[i]['address'] + '<br>';
+          divinfo.innerHTML += "電話番号：" + mkdata[i]['tel'] + '<br>';
+      
+          anchor = document.createElement("a");
+          anchor.href = mkdata[i]['karteurl'];
+          anchor.innerHTML += "施設カルテ" ;
+          divinfo.appendChild(anchor);
+          divrow.appendChild(divname);
+          divrow.appendChild(divinfo);
+          div.appendChild(divrow);
+        });
+      count(page,step);
+  }
+
+  // 最初に1ページ目を表示
+  show(page, step);
+
+  // 前ページ遷移トリガー
+  document.getElementById('prev').addEventListener('click', () => {
+      if(page <= 1) return;
+      page = page - 1;
+      show(page, step);
+  });
+
+  document.getElementById('prevn').addEventListener('click', () => {
+    if(page <= 1) return;
+    page = page - 1;
+    show(page, step);
+  });
+
+  // 次ページ遷移トリガー
+  document.getElementById('next').addEventListener('click', () => {
+    if(page >= mkdata.length / step) return;
+    page = page + 1;
+    show(page, step);
+  });
+  // 次ページ遷移トリガー
+  document.getElementById('nextn').addEventListener('click', () => {
+    if(page >= mkdata.length / step) return;
+    page = page + 1;
+    show(page, step);
+  });
+}
+
+// window.onload = () => {
+  // pagination();
+// }
+
