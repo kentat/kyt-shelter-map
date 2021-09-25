@@ -1,20 +1,15 @@
 {% extends 'bosai/base.html' %}
 {% block content %}
-<div class="row">
-  <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{shelter.name}}</li>
-  </ol>
-  </nav>
-</div>
-<div class="row">
+   <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+	      <li class="breadcrumb-item active" aria-current="page">{{shelter.name}}</li>
+      </ol>
+    </nav>
   <h2 class="display-5 text-primary">{{shelter.name}}</h2>
-</div>
-<div id="result" class="row"></div>
-<div id="map" class="row"></div>
-<div id="maintable" class="row"></div>
-
+  <div id="result"></div>
+  <div id="map"></div>
+  <div id="maintable"></div>
 <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkpJxcjEx4Gfo2jkqKx9wFwwcXIh0-O8k&callback=initDetailMap&libraries=&v=weekly"
     async defer>
@@ -27,5 +22,4 @@
   },];
   setdata(shs);
 </script>
-
 {% endblock %}

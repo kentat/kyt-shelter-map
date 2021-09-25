@@ -37,6 +37,8 @@ function initDetailMap() {
   function success(position) {
     let currentlat = position.coords.latitude;//緯度
     let currentlng = position.coords.longitude;//経度
+    // currentlat = 35.03244752;
+    // currentlng = 135.7701241;
     let curlatlng = new google.maps.LatLng(currentlat, currentlng)
     mymap = drawMap(curlatlng);
     distancesort(curlatlng);
@@ -56,7 +58,7 @@ function drawMap(latlng) {
   return map;
 }
 
-function setdata_old(shelters){
+function setdata(shelters){
   let shdata = {};
   let i = 0;
   for(let sh of shelters){
@@ -64,13 +66,10 @@ function setdata_old(shelters){
     let id = sh.pk;
     shdata = {
       name:s.name, address:s.address, lat:s.hokui, lng:s.tokei,
-      capacity:s.capacity, tel:s.tel, karteurl:s.url, image:s.image, durl:i
+      capacity:s.capacity, tel:s.tel, karteurl:s.url, image:s.image, durl:id
     }
     mkdata[i++] = shdata;
   }
-}
-function setdata(_mkdata){
-  mkdata = _mkdata;
 }
 
 function distancesort(curlatlng) {
@@ -152,8 +151,8 @@ function makeMaker(centerlatlng, route) {
     infoboxContent.innerHTML = 
         '<div class="infobox">' +
           '<div class="inner">' +
-            '<div class="header"><h6><a href="' + mkdata[i]['durl'] +'">' + mkdata[i]['name'] + '</a></h6></div>' +
-            '<div class="container"><strong>直線距離：' + mkdata[i]['distance'] + ' km</strong></div>' +
+            '<div class="header"><h6><a href="./'+ mkdata[i]['durl'] +'">' + mkdata[i]['name'] + '</a></h6></div>' +
+            '<div class="container"><strong>' + mkdata[i]['distance'] + ' km</strong></div>' +
             '<div class="container">' + mkdata[i]['address'] + '<br/>' + mkdata[i]['tel'] + '</div>' +
           '</div>' + 
         '</div>';
@@ -201,13 +200,13 @@ function makeTable() {
     divname.className = "col-md-4 themed-grid-col" ;
 
     let anchor = document.createElement("a");
-    anchor.href = mkdata[i]['durl'];
+    anchor.href = "./" + mkdata[i]['durl'];
     anchor.innerHTML = '<h5>' + mkdata[i]['name'] + '</h5>';
     divname.appendChild(anchor);
 
     let divinfo = document.createElement('div');
     divinfo.className = "col-md-8 themed-grid-col" ;
-    divinfo.innerHTML =  "直線距離：" +'<strong>' + mkdata[i]['distance'] + "km" + '</strong>' + '<br>';
+    divinfo.innerHTML = '<strong>' + mkdata[i]['distance'] + "km" + '</strong>' + '<br>';
     divinfo.innerHTML += "収容人数：" + mkdata[i]['capacity'] + '<br>';
     divinfo.innerHTML += "所在地：" + mkdata[i]['address'] + '<br>';
     divinfo.innerHTML += "電話番号：" + mkdata[i]['tel'] + '<br>';
@@ -342,7 +341,7 @@ const pagination = () => {
           divname.className = "col-md-4 themed-grid-col" ;
       
           let anchor = document.createElement("a");
-          anchor.href = mkdata[i]['durl'];
+          anchor.href = "./" + mkdata[i]['durl'];
           anchor.innerHTML = '<h5>' + mkdata[i]['name'] + '</h5>';
           divname.appendChild(anchor);
       
