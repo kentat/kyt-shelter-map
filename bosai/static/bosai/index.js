@@ -3,8 +3,22 @@ let mkdata = [];
 const KyotoCityOffice = { lat: 35.011582, lng: 135.767914 };
 
 function initMap() {
-  let initlatlng = new google.maps.LatLng(KyotoCityOffice['lat'], KyotoCityOffice['lng'])
+  let lat;
+  let lng; 
+  if(localStorage.hasOwnProperty('lat')) {
+    lat = localStorage.getItem('lat');
+    lng = localStorage.getItem('lng');
+  }else{
+    lat = KyotoCityOffice['lat'];
+    lng = KyotoCityOffice['lng'];
+  }
+  let initlatlng = new google.maps.LatLng(lat, lng);
   mymap = drawMap(initlatlng);
+  if(localStorage.hasOwnProperty('lat')) {
+    distancesort(initlatlng);
+    makeMaker(initlatlng, false);
+    makeTable();
+  }
 }
 
 function getCurrentMap() {
@@ -17,6 +31,8 @@ function getCurrentMap() {
     let currentlng = position.coords.longitude;//経度
     // currentlat = 35.03244752;
     // currentlng = 135.7701241;
+    localStorage.setItem('lat', currentlat);
+    localStorage.setItem('lng', currentlng);
     let curlatlng = new google.maps.LatLng(currentlat, currentlng)
     mymap = drawMap(curlatlng);
     distancesort(curlatlng);
