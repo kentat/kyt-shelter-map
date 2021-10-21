@@ -1,11 +1,11 @@
 {% extends 'bosai/base.html' %}
 {% block content %}
-   <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-	      <li class="breadcrumb-item active" aria-current="page">{{shelter.name}}</li>
-      </ol>
-    </nav>
+   <!-- <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb"> -->
+      <!-- <ol class="breadcrumb"> -->
+        <!-- <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li> -->
+	      <!-- <li class="breadcrumb-item active" aria-current="page">{{shelter.name}}</li> -->
+      <!-- </ol> -->
+    <!-- </nav> -->
   <h2 class="display-5 text-primary">{{shelter.name}}</h2>
   <div id="result"></div>
   <div id="map"></div>

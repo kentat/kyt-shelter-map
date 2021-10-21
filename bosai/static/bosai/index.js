@@ -118,6 +118,13 @@ function makeMaker(centerlatlng, route) {
     }
   });
 
+  // if(route){
+  //   let orglatlng = centerlatlng;
+  //   let dstlatlng = new google.maps.LatLng(mkdata[0]['lat'], mkdata[0]['lng']);
+  //   GetRoute(orglatlng,dstlatlng);
+  // }
+
+
   // マーカー毎の処理
   for (let i = 0; i < Math.min(mkdata.length,20); i++) {
     // markerLatLng = new google.maps.LatLng({ lat: mkdata[i]['lat'], lng: mkdata[i]['lng'] }); // 緯度経度のデータ作成
@@ -170,7 +177,7 @@ function makeMaker(centerlatlng, route) {
   if(route){
     let orglatlng = centerlatlng;
     let dstlatlng = new google.maps.LatLng(mkdata[0]['lat'], mkdata[0]['lng']);
-    GetRoute(orglatlng,dstlatlng,route);
+    GetRoute(orglatlng,dstlatlng);
   }
 }
 
@@ -178,20 +185,20 @@ function makeTable() {
   // table要素を生成
   const parent = document.getElementById("maintable");
 
-  let divrow = document.createElement('div');
-  divrow.className = "row p-3 border" ;
+  // let divrow = document.createElement('div');
+  // divrow.className = "row p-3 border" ;
   
-  let divname = document.createElement('div');
-  divname.className = "col-md-4 themed-grid-col" ;
-  divname.textContent = '施設名';
+  // let divname = document.createElement('div');
+  // divname.className = "col-md-4 themed-grid-col" ;
+  // divname.textContent = '施設名';
 
-  let divinfo = document.createElement('div');
-  divinfo.className = "col-md-8 themed-grid-col" ;
-  divinfo.textContent = '施設情報';
+  // let divinfo = document.createElement('div');
+  // divinfo.className = "col-md-8 themed-grid-col" ;
+  // divinfo.textContent = '施設情報';
 
-  divrow.appendChild(divname);
-  divrow.appendChild(divinfo);
-  parent.appendChild(divrow);
+  // divrow.appendChild(divname);
+  // divrow.appendChild(divinfo);
+  // parent.appendChild(divrow);
  
   for (var i = 0; i < Math.min(10, mkdata.length); i++) {
     let divrow = document.createElement('div');
@@ -249,7 +256,7 @@ function GetRoute(orglatlng,dstlatlng) {
       route.end_address = '目的地点：' + '出発地点からの距離：' + dist + '出発地点からの所要時間：'+ time;
 
       let output = document.getElementById("result");
-      output.innerHTML = '<h5>現在地から' + mkdata[0]['name'] + 'までの距離：' + dist + ' 所要時間：徒歩 ' + time + '</h5>';
+      output.innerHTML = '<h5>現在地からの距離： ' + dist + '　所要時間：徒歩 ' + time + '</h5>';
       
 
       // ルート検索の結果を地図上に描画
