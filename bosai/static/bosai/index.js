@@ -4,61 +4,55 @@ const KyotoCityOffice = { lat: 35.011582, lng: 135.767914 };
 let debug = false;
 
 function initMap() {
-  let lat;
-  let lng; 
-  let initlatlng = getCurrentLatLng();
-  mymap = drawMap(initlatlng);
-  if(localStorage.hasOwnProperty('lat')) {
-    distancesort(initlatlng);
-    makeMaker(initlatlng, false);
+  drawShelterList({ renew: false, route: false });
+}
+
+function initDetailMap() {
+  drawShelterList({ renew: false, route: true });
+}
+
+function getCurrentMap() {
+  drawShelterList({ renew: true, route: false });
+}
+
+function drawShelterList(option){
+  if(option['renew']) {
+    getCurLatLng(option['route']);
+  }else{
+    let latlng;
+    if(localStorage.hasOwnProperty('lat')){
+      let lat = localStorage.getItem('lat');
+      let lng = localStorage.getItem('lng');
+      latlng = new google.maps.LatLng(lat,lng);
+    }else{
+      latlng = new google.maps.LatLng(KyotoCityOffice['lat'], KyotoCityOffice['lng']);
+    }
+    mymap = drawMap(latlng);
+    sortByDistance(latlng);
+    makeMarker(latlng, option['route']);
     makeTable();
   }
 }
 
-function getCurrentMap() {
-  // fixme:output
-  //let output = document.getElementById("result");
-  let curlatlng = getCurrentLatLng();
-  // localStorage.removeItem('lat');
-  mymap = drawMap(curlatlng);
-  distancesort(curlatlng);
-  makeMaker(curlatlng, false);
-  // pagination();
-  makeTable();
-}
-
-function getCurrentLatLng(){
-  let currentlat = KyotoCityOffice['lat'];
-  let currentlng = KyotoCityOffice['lng'];
-  if(localStorage.hasOwnProperty('lat')) {
-    currentlat = localStorage.getItem('lat');
-    currentlng = localStorage.getItem('lng');
-  }else if(navigator.geolocation){
-    function success(position) {
-      currentlat = position.coords.latitude;//緯度
-      currentlng = position.coords.longitude;//経度
-      localStorage.setItem('lat', currentlat);
-      localStorage.setItem('lng', currentlng);
-    };
-    function error() {
-      // 京都市役所を示しておく
-    };
-    navigator.geolocation.getCurrentPosition(success, error);//成功と失敗を判断
-  }else{
-    // 京都市役所を示しておく
+function getCurLatLng(route){
+  let latlng;
+  if(!navigator.geolocation){
+    // error message
+    return;
   }
-  return new google.maps.LatLng(currentlat, currentlng)
-}
-
-function initDetailMap() {
-  // fixme:output
-  //let output = document.getElementById("result");
-  let curlatlng = getCurrentLatLng();
-  mymap = drawMap(curlatlng);
-  distancesort(curlatlng);
-  makeMaker(curlatlng, true);
-  // pagination();
-  makeTable();
+  function success(position) {
+    latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    localStorage.setItem('lat', position.coords.latitude);
+    localStorage.setItem('lng', position.coords.longitude);
+    mymap = drawMap(latlng);
+    sortByDistance(latlng);
+    makeMarker(latlng, route);
+    makeTable();
+  };
+  function error() {
+    latlng = new google.maps.LatLng(KyotoCityOffice['lat'], KyotoCityOffice['lng']);
+  };
+  navigator.geolocation.getCurrentPosition(success, error);//成功と失敗を判断
 }
 
 function drawMap(latlng) {
@@ -73,7 +67,7 @@ function setdata(_mkdata){
   mkdata = _mkdata;
 }
 
-function distancesort(curlatlng) {
+function sortByDistance(curlatlng) {
   // マーカーの新規出力
   let mk1 = new google.maps.Marker({
     position: curlatlng,
@@ -97,7 +91,7 @@ function distancesort(curlatlng) {
   });
 }
 
-function makeMaker(centerlatlng, route) {
+function makeMarker(centerlatlng, route) {
   // マーカーの新規出力
   let mk1 = new google.maps.Marker({
     map: mymap,
@@ -117,13 +111,6 @@ function makeMaker(centerlatlng, route) {
       fontSize: '20px'                     //文字のサイズ
     }
   });
-
-  // if(route){
-  //   let orglatlng = centerlatlng;
-  //   let dstlatlng = new google.maps.LatLng(mkdata[0]['lat'], mkdata[0]['lng']);
-  //   GetRoute(orglatlng,dstlatlng);
-  // }
-
 
   // マーカー毎の処理
   for (let i = 0; i < Math.min(mkdata.length,20); i++) {
@@ -185,21 +172,10 @@ function makeTable() {
   // table要素を生成
   const parent = document.getElementById("maintable");
 
-  // let divrow = document.createElement('div');
-  // divrow.className = "row p-3 border" ;
-  
-  // let divname = document.createElement('div');
-  // divname.className = "col-md-4 themed-grid-col" ;
-  // divname.textContent = '施設名';
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
 
-  // let divinfo = document.createElement('div');
-  // divinfo.className = "col-md-8 themed-grid-col" ;
-  // divinfo.textContent = '施設情報';
-
-  // divrow.appendChild(divname);
-  // divrow.appendChild(divinfo);
-  // parent.appendChild(divrow);
- 
   for (var i = 0; i < Math.min(10, mkdata.length); i++) {
     let divrow = document.createElement('div');
     divrow.className = "row p-3 border" ;
@@ -257,8 +233,6 @@ function GetRoute(orglatlng,dstlatlng) {
 
       let output = document.getElementById("result");
       output.innerHTML = '<h5>現在地からの距離： ' + dist + '　所要時間：徒歩 ' + time + '</h5>';
-      
-
       // ルート検索の結果を地図上に描画
 			directionsRenderer.setDirections(result);
 			directionsRenderer.setMap(mymap);
@@ -325,8 +299,6 @@ const pagination = () => {
         post.innerHTML = page + 1;
         post.className ='page-link';
       }
-
-
     }
 
   // ページを表示
