@@ -10,10 +10,6 @@
   <div id="result"></div>
   <div id="map"></div>
   <div id="maintable"></div>
-  <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkpJxcjEx4Gfo2jkqKx9wFwwcXIh0-O8k&callback=initMap&libraries=&v=weekly"
-      async defer>
-  </script>
   <script type="text/javascript">
     let shs = [
       {% for s in shelters %}
@@ -25,5 +21,9 @@
       {% endfor %}
     ];
     setdata(shs);
+</script>
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkpJxcjEx4Gfo2jkqKx9wFwwcXIh0-O8k&callback=initMap&libraries=&v=weekly"
+  async defer>
 </script>
 {% endblock %}
